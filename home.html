@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login and Register UI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 font-['Montserrat'] container mx-auto">
+
+  <!-- Container for Login/Register Card -->
+  <div class="min-h-screen flex items-center justify-center px-4">
+    <!-- Card Wrapper -->
+    <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-8 space-y-6">
+      <!-- Header -->
+      <div>
+        <h2 id="form-title" class="text-2xl font-bold text-gray-800 text-center">Data Entry</h2>
+      </div>
+
+      <!-- Form -->
+      <form id="auth-form" class="space-y-4">
+        <!-- Email Input -->
+        <div>
+          <label for=firtName class="block text-sm font-medium text-gray-700">firtName</label>
+          <input type="text" id="firtName" required class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+
+        <!-- Password Input -->
+        <div>
+          <label for="lastName" class="block text-sm font-medium text-gray-700">lastName</label>
+          <input type="text" id="lastName" required class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+
+        <!-- Confirm Password Input (for Register Form) -->
+       
+
+        <!-- Submit Button -->
+        <button type="submit" id="addData" class="w-full bg-gradient-to-r from-blue-400 to-purple-500 shadow px-3 py-3 text-sm font-semibold shadow-xl  py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+           Add Data
+        </button>
+      </form>
+
+      <!-- Toggle Form Footer -->
+     
+            <div id="signoutbtn" class="flex justify-center">
+          <button  class="px-3 py-2 shadow rounded-lg" type="button">LogOut</button>
+      </div>
+    </div>
+  </div>
+
+  
+
+  
+  <script type="module">
+  
+  const addData = document.querySelector('#addData')
+  
+  
+  
+  import { auth, signOut } from "./firebase.js";
+  import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+
+  
+  const db = getDatabase();
+  
+  const addDatafunction = () =>{
+    const firstName = document.querySelector('#firstName').value
+    const lastName = document.querySelector('#lastName').value
+        if (auth.currentUser) {
+          const user = auth.currentUser;
+
+          // Save user data to their specific path in the database
+          set(ref(db, 'users/' + user.uid), { firstName,lastName })
+            .then(() => {
+              console.log("Data saved successfully");
+            })
+            .catch((error) => {
+              console.error("Error saving data:", error);
+            });
+        } else {
+          console.log("No user is signed in");
+        }
+      }
+  const signoutbtn = document.querySelector('#signoutbtn');
+  const usersignout = async () => {
+    try {
+      await signOut(auth);
+      window.location.href = "index.html";
+    } catch (error) {
+      console.error("Sign-out error: ", error);
+    }
+  };
+  signoutbtn.addEventListener("click", usersignout);
+  
+  addData.addEventListener("click",addDatafunction)
+  
+</script>
+
+  
+
+
+</body>
+
+</html>
