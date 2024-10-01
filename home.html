@@ -24,7 +24,7 @@
       <form id="auth-form" class="space-y-4">
         <!-- Email Input -->
         <div>
-          <label for=firtName class="block text-sm font-medium text-gray-700">firtName</label>
+          <label for=firstName class="block text-sm font-medium text-gray-700">firstName</label>
           <input type="text" id="firtName" required class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
         </div>
 
@@ -38,7 +38,7 @@
        
 
         <!-- Submit Button -->
-        <button type="submit" id="addData" class="w-full bg-gradient-to-r from-blue-400 to-purple-500 shadow px-3 py-3 text-sm font-semibold shadow-xl  py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+        <button type="button" id="addData" class="w-full bg-gradient-to-r from-blue-400 to-purple-500 shadow px-3 py-3 text-sm font-semibold shadow-xl  py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
            Add Data
         </button>
       </form>
@@ -66,7 +66,8 @@
   
   const db = getDatabase();
   
-  const addDatafunction = () =>{
+  const addDatafunction = (event) =>{
+    event.preventDefault();
     const firstName = document.querySelector('#firstName').value
     const lastName = document.querySelector('#lastName').value
         if (auth.currentUser) {
